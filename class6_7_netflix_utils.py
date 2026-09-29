@@ -5,6 +5,13 @@ logger = logging.getLogger(__name__)
 
 def show_overview(df):
     """Display basic information about a DataFrame."""
+    logger.debug(df.shape)
+    
+    print(df.shape)
+    print(df.head)
+    print(df.columns)
+    print(df.info)
+
     # TODO 1:
     # Log a DEBUG message containing the shape.
     # Print the shape, first five rows, column names, and data types.
