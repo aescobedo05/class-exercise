@@ -19,3 +19,4 @@ venv/
 .vscode/
 .idea/
 .env
+class4.env
