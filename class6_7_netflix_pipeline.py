@@ -36,22 +36,27 @@ def main():
         datefmt="%H:%M:%S"
     )
 
-    # TODO 4:
-    # Create a Path object from args.input.
-    # Inside a try block, load that path using pd.read_csv().
-    # Catch FileNotFoundError, log an ERROR message,
-    # and exit with sys.exit(1).
-    # Log an INFO message.
+    data_dir = Path(args.input)
 
-    # TODO 5:
-    # Call show_overview().
-    # Log an INFO message.
+    try:
+        dataframe = pd.read_csv(data_dir)
+    except FileNotFoundError:
+        logger.error("Input file not found: %s", data_dir)
+        sys.exit(1)
 
-    # TODO 6:
-    # Call remove_duplicates().
-    # Call drop_missing_rows().
-    # Log an INFO message after each step that
-    # includes the number of rows removed.
+    logger.info("Loaded %s rows and %s columns", dataframe.shape[0], dataframe.shape[1])
+
+    show_overview(dataframe)
+    logger.info("Displayed DataFrame overview")
+
+    removed = remove_duplicates(dataframe)
+    removed_rows = len(removed)
+    logger.info("Removed %s duplicate row(s)", removed_rows)
+    
+    dropped = drop_missing_rows(dataframe)
+    dropped_rows = len(dropped)
+    logger.info("Dropped %s row(s) with missing values", dropped_rows)
+
 
 if __name__ == "__main__":
     main()
