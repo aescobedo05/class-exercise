@@ -6,6 +6,6 @@ logger = logging.getLogger(__name__)
 def load_netflix(filepath):
     """Load the Netflix CSV file."""
     df = pd.read_csv(filepath)
-    logger.info("Loaded CSV file: %s", filepath)
+    logger.info("Data loaded")
 
     return df

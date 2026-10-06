@@ -1,8 +1,8 @@
 import logging
 from pathlib import Path
 import sys
-from class8_data_loader import load_netflix
-from class8_data_validator import require_columns
+from class8_src import load_netflix, require_columns
+
 
 logging.basicConfig(
     level=logging.INFO,
@@ -15,11 +15,11 @@ def main():
     input_path = Path("data/messy_netflix_titles.csv")
 
     try:
-        require_columns(load_netflix(input_path), ["title", "type", "release_year"])       
+        require_columns(load_netflix(input_path), ["title", "type", "release_year"])     
     except ValueError:
         sys.exit(1)
 
-    logger.info("Dataframe succesful")
+    logger.info("Pipeline completed")
 
 if __name__ == "__main__":
     main()
