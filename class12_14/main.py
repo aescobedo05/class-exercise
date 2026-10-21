@@ -71,8 +71,3 @@ def add_movie(movie: MovieInput):
     logger.info("Added movie with ID %s", movie_id)
 
     return record
-
-    # TODO 2: 
-    # Convert movie to a dictionary, add the new ID, and store it.
-    # Log the new ID at INFO and return the stored record.
-    pass
