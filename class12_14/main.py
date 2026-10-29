@@ -2,9 +2,10 @@
 
 import io
 import logging
+from pathlib import Path
 
 from fastapi import File, HTTPException, UploadFile, FastAPI, Query
-from pathlib import Path
+from middleware import log_requests
 
 import pandas as pd
 
@@ -12,7 +13,8 @@ from src import (
     DataStorage,
     MovieInput,
     MovieResponse,
-    CSVInfo
+    CSVInfo,
+    ProcessConfig
 )
 
 
@@ -130,3 +132,19 @@ def get_dataset_shape(dataset_id: int):
     logger.info("Dataset successfully retrieved: %s", dataset_id)
 
     return {"dataset_id": dataset_id, "rows": len(dataset), "columns": len(dataset.columns)}
+
+@app.post("/demo/process-config")
+def demo_process_config(config: ProcessConfig):
+    df = pd.DataFrame({"title": ["Movie A", "Movie A", "Movie B", None]})
+    settings = config.model_dump()
+
+    if settings["processing"]["remove_duplicates"]:
+        df = df.drop_duplicates()
+
+    if settings["processing"]["drop_missing"]:
+        df = df.dropna()
+
+    return {"rows": len(df)}
+
+# After the existing app = FastAPI(...):
+app.middleware("http")(log_requests)
