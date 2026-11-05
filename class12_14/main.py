@@ -32,6 +32,8 @@ movies = {
 
 app = FastAPI(title="Movie API")
 
+app.middleware("http")(log_requests)
+
 storage = DataStorage()
 
 @app.get("/health")
@@ -98,8 +100,8 @@ async def demo_inspect_csv(file: UploadFile = File(...)):
 async def inspect_csv(file: UploadFile = File(...)):
     contents = await file.read()
 
-    data_dir = Path(file.filename)
-    if data_dir.suffix != '.csv':
+    data_dir = Path(file.filename or "").suffix.lower()
+    if data_dir != '.csv':
         logger.warning("Extension not .csv")
         raise HTTPException(status_code=400, detail="Extension not .csv")
 
@@ -146,5 +148,3 @@ def demo_process_config(config: ProcessConfig):
 
     return {"rows": len(df)}
 
-# After the existing app = FastAPI(...):
-app.middleware("http")(log_requests)

@@ -34,8 +34,5 @@ async def log_requests(request: Request, call_next):
         logger.error(f"request_id={request_id} {request.method} {request.url.path} status={response.status_code} duration={duration_ms:.1f}ms")
 
 
-    # TODO 2: Log message at INFO for status < 400 (e.g. logger.info(message)),
-    # WARNING for 400–499, and ERROR for status >= 500.
-
     response.headers["X-Request-ID"] = request_id
     return response
